@@ -1,11 +1,10 @@
 #!/bin/bash
-cat src.txt | grep -E "^((\+|\-).*XXXXXX|\+\+\+ b)" | sed -e "s/\(.*\)\(XXXXXX[1-9A-Z_]*\)\(.*\)/\2/g" -e "s/\+\+\+ b //g" > in.txt
-cat in.txt | awk '
+cat src.txt | grep -E "^((\+|\-).*XXXXXX|\+\+\+ b)" | sed -e "s/\(.*\)\(XXXXXX[1-9A-Z_]*\)\(.*\)/\2/g" -e "s/\+\+\+ b //g" | awk '
     BEGIN{
         path = "init"
     }
     {
-        if(match($0,"XXXXXX")==0){
+        if($1 !~ "XXXXXX.*"){
             path = $0
         }
         else{
